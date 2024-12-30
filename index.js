@@ -26,7 +26,7 @@ db.once('open', ()=>console.log('Now connected to MongoDB Atlas!'));
 
 // Cors configuration
 const corsOptions = {
-	origin: [`http://localhost:4000`],
+	origin: [`http://localhost:4000`, `http://localhost:3000`],
 	credentials: true,
 	optionsSuccessStatus: 200
 }
