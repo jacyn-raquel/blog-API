@@ -65,6 +65,7 @@ module.exports.loginUser = (req,res) => {
 		}
 
 		const isPasswordCorrect = bcrypt.compareSync(password, result.password) ? res.status(200).json({
+			message: "User Successfully logged in!",
 			access: createAccessToken(result)
 			}) : res.status(401).json({
 				message: "Incorrect email or password!"
@@ -86,6 +87,7 @@ module.exports.getUserDetails = (req,res) => {
 		}
 
 		return res.status(200).json({
+			success: true,
 			result: result
 		})
 	})

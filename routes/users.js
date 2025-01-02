@@ -12,7 +12,7 @@ router.post('/login', userControllers.loginUser);
 // 3) Get All Users
 router.get('/', verify, verifyAdmin, userControllers.getAllUsers);
 
-// 4) Get Specific User
+// 4) Get Specific Logged In User
 router.get('/details', verify, userControllers.getUserDetails);
 
 
