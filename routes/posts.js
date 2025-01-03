@@ -33,7 +33,7 @@ router.get('/:postId', verify, verifyAdmin, postControllers.getSpecificPost);
 router.delete('/:postId', verify, verifyAdmin, postControllers.deleteSpecificPost);
 
 // 3) Remove Comment on Post
-router.delete('/deleteComment/:postId', verify, verifyAdmin, postControllers.deleteComment);
+router.delete('/deleteComment/:commentId', verify, verifyAdmin, postControllers.deleteComment);
 
 
 module.exports = router;
