@@ -20,16 +20,20 @@ router.post('/addComment/:postId', verify, postControllers.addComment);
 // 5) Get Comments by User Id
 router.get('/comments', verify, postControllers.getCommentsByUserId);
 
+// 6) Get All Post
+router.get('/allPosts', verify, postControllers.getAllPosts);
+
 
 // **** ADMIN USERS ****
-// 1) Get All Post
-router.get('/allPosts', verify, verifyAdmin, postControllers.getAllPosts);
 
-// 2) Get Specific Post
+// 1) Get Specific Post
 router.get('/:postId', verify, verifyAdmin, postControllers.getSpecificPost);
 
-// 3) Delete Specific Post
+// 2) Delete Specific Post
 router.delete('/:postId', verify, verifyAdmin, postControllers.deleteSpecificPost);
+
+// 3) Remove Comment on Post
+router.delete('/deleteComment/:postId', verify, verifyAdmin, postControllers.deleteComment);
 
 
 module.exports = router;

@@ -221,3 +221,23 @@ module.exports.getCommentsByUserId = (req,res) => {
 	})
 	.catch(err => errorHandler(err, req, res))
 }
+
+// 3) Delete Comment by Admin
+module.exports.deleteComment = (req,res) => {
+	const commentId = req.params.commentId;
+
+	return Post.findOneAndDelete({"comments._id": commentId})
+	.then(comment => {
+		if(!comment){
+			return res.status(404).json({
+				message: "Comment already deleted!"
+			})
+		}
+
+		return res.status(200).json({
+			success:true,
+			message: "Comment has been successfully deleted!"
+		})
+	})
+	.catch(err => errorHandler(err, req, res));
+}
