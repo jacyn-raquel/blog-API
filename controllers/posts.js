@@ -37,24 +37,33 @@ module.exports.addPost = (req,res) => {
 }
 
 // 2) Get All Posts
-module.exports.getAllPosts = (req,res) => {
-	return Post.find()
-	.then(result => {
-		if(!result){
-			return res.status(404).json({
-				success:true,
-				message: "No posts exists."
-			})
-		}
+module.exports.getAllPosts = (req, res) => {
+  return Post.find()
+    .sort({ datePostCreated: -1 }) // Sort by creation date (latest first)
+    .then(result => {
+      if (result.length === 0) { // Check if the result array is empty
+        return res.status(404).json({
+          success: true,
+          message: "No posts exist."
+        });
+      }
 
-		return res.status(200).json({
-			success: true,
-			message: "All Posts retrieved.",
-			result
-		})
-	})
-	.catch(err => errorHandler(err,req,res));
-}
+      return res.status(200).json({
+        success: true,
+        message: "All Posts retrieved.",
+        result
+      });
+    })
+    .catch(err => {
+      console.error("Error retrieving posts:", err);
+      res.status(500).json({
+        success: false,
+        message: "An error occurred while retrieving posts.",
+        error: err.message
+      });
+    });
+};
+
 
 // 3) Get Specific Post (Admin only)
 module.exports.getSpecificPost = (req,res) => {
