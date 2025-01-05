@@ -232,22 +232,32 @@ module.exports.getCommentsByUserId = (req,res) => {
 }
 
 // 3) Delete Comment by Admin
-module.exports.deleteComment = (req,res) => {
-	const postId = req.params.postId;
-	const commentId = req.params.commentId;
+module.exports.deleteComment = (req, res) => {
+  const { postId, commentId } = req.params;
 
-	return Post.findOneAndDelete({"comments._id": commentId})
-	.then(comment => {
-		if(!comment){
-			return res.status(404).json({
-				message: "Comment already deleted!"
-			})
-		}
+  Post.findById(postId)
+    .then(post => {
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
 
-		return res.status(200).json({
-			success:true,
-			message: "Comment has been successfully deleted!"
-		})
-	})
-	.catch(err => errorHandler(err, req, res));
-}
+      // Assuming comments are an array of objects with an _id field
+      const commentIndex = post.comments.findIndex(comment => comment._id.toString() === commentId);
+
+      if (commentIndex === -1) {
+        return res.status(404).json({ message: "Comment not found" });
+      }
+
+      post.comments.splice(commentIndex, 1);
+      
+      // Save the post after deletion
+      return post.save();
+    })
+    .then(() => {
+      res.status(200).json({ message: "Comment has been successfully deleted!" });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ message: "Something went wrong. Please try again later." });
+    });
+};
