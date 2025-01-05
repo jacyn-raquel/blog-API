@@ -233,6 +233,7 @@ module.exports.getCommentsByUserId = (req,res) => {
 
 // 3) Delete Comment by Admin
 module.exports.deleteComment = (req,res) => {
+	const postId = req.params.postId;
 	const commentId = req.params.commentId;
 
 	return Post.findOneAndDelete({"comments._id": commentId})
